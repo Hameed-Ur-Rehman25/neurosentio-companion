@@ -7,8 +7,12 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1200px",
         "2xl": "1400px",
       },
     },
@@ -47,6 +51,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // NeuroSentio custom colors
+        "calm-purple": {
+          DEFAULT: "hsl(var(--calm-purple))",
+          foreground: "hsl(var(--calm-purple-foreground))",
+        },
+        "gentle-green": {
+          DEFAULT: "hsl(var(--gentle-green))",
+          foreground: "hsl(var(--gentle-green-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -58,32 +71,58 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      fontSize: {
+        'base': ['1rem', { lineHeight: '1.7' }],
+        'lg': ['1.125rem', { lineHeight: '1.7' }],
+        'xl': ['1.25rem', { lineHeight: '1.6' }],
+        '2xl': ['1.5rem', { lineHeight: '1.5' }],
+        '3xl': ['1.875rem', { lineHeight: '1.4' }],
+        '4xl': ['2.25rem', { lineHeight: '1.3' }],
+        '5xl': ['3rem', { lineHeight: '1.2' }],
+        '6xl': ['3.75rem', { lineHeight: '1.1' }],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
+      },
+      boxShadow: {
+        'card': 'var(--card-shadow)',
+        'card-hover': 'var(--card-shadow-hover)',
+        'accent-glow': 'var(--accent-glow)',
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "fade-in-up": {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "gentle-pulse": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.85" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in-up": "fade-in-up 0.6s ease-out forwards",
+        "gentle-pulse": "gentle-pulse 3s ease-in-out infinite",
+      },
+      spacing: {
+        '18': '4.5rem',
+        '22': '5.5rem',
       },
     },
   },
