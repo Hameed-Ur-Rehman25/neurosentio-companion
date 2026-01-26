@@ -52,10 +52,12 @@
     --radius: 0.75rem;
     
     /* Custom NeuroSentio tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(210 20% 11%) 0%, hsl(210 25% 18%) 100%);
+    --hero-gradient: linear-gradient(180deg, hsl(156 70% 97%) 0%, hsl(156 50% 94%) 30%, hsl(0 0% 100%) 100%);
+    --hero-gradient-dark: linear-gradient(135deg, hsl(210 20% 11%) 0%, hsl(210 25% 18%) 100%);
     --accent-glow: 0 8px 32px -8px hsl(156 70% 53% / 0.4);
     --card-shadow: 0 4px 24px -4px hsl(210 20% 11% / 0.08);
     --card-shadow-hover: 0 8px 32px -8px hsl(210 20% 11% / 0.12);
+    --float-shadow: 0 25px 50px -12px hsl(210 20% 11% / 0.15);
     
     /* Calm purple accent for variety */
     --calm-purple: 270 40% 60%;
@@ -166,9 +168,19 @@
 }
 
 @layer components {
-  /* Hero gradient background */
+  /* Hero gradient background - light mint */
   .hero-gradient {
     background: var(--hero-gradient);
+  }
+  
+  /* Dark hero gradient */
+  .hero-gradient-dark {
+    background: var(--hero-gradient-dark);
+  }
+  
+  /* Floating card effect */
+  .float-card {
+    box-shadow: var(--float-shadow);
   }
   
   /* Accent glow effect */
