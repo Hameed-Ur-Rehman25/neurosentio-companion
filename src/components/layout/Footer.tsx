@@ -12,6 +12,7 @@ const Footer = () => {
     legal: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
+      { label: "Accessibility", href: "/accessibility" },
     ],
     support: [
       { label: "Help & FAQ", href: "/support" },
