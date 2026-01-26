@@ -5,9 +5,9 @@ const Footer = () => {
 
   const footerLinks = {
     product: [
-      { label: "Features", href: "#features" },
-      { label: "How It Works", href: "#how-it-works" },
-      { label: "Download", href: "#download" },
+      { label: "Features", href: "/features", isRoute: true },
+      { label: "How It Works", href: "/#how-it-works", isRoute: false },
+      { label: "Download", href: "/#download", isRoute: false },
     ],
     legal: [
       { label: "Privacy Policy", href: "/privacy" },
@@ -43,12 +43,21 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
-                  >
-                    {link.label}
-                  </a>
+                  {link.isRoute ? (
+                    <Link
+                      to={link.href}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
