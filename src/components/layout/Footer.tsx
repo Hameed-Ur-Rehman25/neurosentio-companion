@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -10,11 +12,10 @@ const Footer = () => {
     legal: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
-      { label: "Accessibility", href: "/accessibility" },
     ],
     support: [
-      { label: "FAQ", href: "/faq" },
-      { label: "Contact", href: "/contact" },
+      { label: "Help & FAQ", href: "/support" },
+      { label: "Contact Us", href: "/support#contact" },
     ],
   };
 
@@ -58,12 +59,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -75,12 +76,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
