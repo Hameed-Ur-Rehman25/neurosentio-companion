@@ -2,6 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import {
   Battery,
   AlertCircle,
@@ -9,7 +10,6 @@ import {
   CreditCard,
   Bell,
   Shield,
-  Wifi,
   WifiOff,
   RefreshCw,
   Smartphone,
@@ -27,6 +27,54 @@ import featurePanicButton from "@/assets/feature-panic-button.png";
 import featureContacts from "@/assets/feature-contacts.png";
 import featurePassport from "@/assets/feature-passport.png";
 import featureReminders from "@/assets/feature-reminders.png";
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }
+  }
+};
+
+const fadeInLeft = {
+  hidden: { opacity: 0, x: -30 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }
+  }
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 30 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as const }
+  }
+};
 
 const Features = () => {
   const mainFeatures = [
@@ -203,20 +251,40 @@ const Features = () => {
       <Header />
       <main id="main-content">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-24 bg-gradient-to-b from-primary to-primary/95">
+        <section className="relative py-16 md:py-24 bg-gradient-to-b from-primary to-primary/95 overflow-hidden">
           <div className="container mx-auto px-4 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/20 mb-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/20 mb-6"
+            >
               <Smartphone className="w-8 h-8 text-accent" />
-            </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4"
+            >
               Features
-            </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-8">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-8"
+            >
               Powerful tools designed with simplicity and accessibility in mind
-            </p>
+            </motion.p>
 
             {/* Quick Navigation */}
-            <div className="flex flex-wrap justify-center gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex flex-wrap justify-center gap-3"
+            >
               {mainFeatures.map((feature) => (
                 <a
                   key={feature.id}
@@ -227,7 +295,7 @@ const Features = () => {
                   {feature.title.split(" ")[0]}
                 </a>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -236,7 +304,7 @@ const Features = () => {
           <section
             key={feature.id}
             id={feature.id}
-            className={`py-16 md:py-24 ${index % 2 === 1 ? "bg-muted/30" : ""}`}
+            className={`py-16 md:py-24 overflow-hidden ${index % 2 === 1 ? "bg-muted/30" : ""}`}
           >
             <div className="container mx-auto px-4">
               <div
@@ -245,7 +313,13 @@ const Features = () => {
                 }`}
               >
                 {/* Content */}
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={index % 2 === 0 ? fadeInLeft : fadeInRight}
+                  className={index % 2 === 1 ? "lg:order-2" : ""}
+                >
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
                       <feature.icon className="w-6 h-6 text-accent" />
@@ -266,22 +340,29 @@ const Features = () => {
                   </p>
 
                   {/* Benefits */}
-                  <div className="mb-8">
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    variants={staggerContainer}
+                    className="mb-8"
+                  >
                     <h3 className="font-semibold text-foreground mb-4">
                       Key Benefits
                     </h3>
                     <ul className="grid sm:grid-cols-2 gap-3">
                       {feature.benefits.map((benefit, bIndex) => (
-                        <li
+                        <motion.li
                           key={bIndex}
+                          variants={staggerItem}
                           className="flex items-start gap-2 text-muted-foreground"
                         >
                           <CheckCircle className="w-4 h-4 text-accent mt-1 flex-shrink-0" />
                           <span className="text-sm">{benefit}</span>
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
 
                   {/* How It Works */}
                   <div className="bg-card rounded-xl border border-border p-6">
@@ -303,44 +384,64 @@ const Features = () => {
                       ))}
                     </ol>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Image */}
-                <div
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
+                  variants={index % 2 === 0 ? fadeInRight : fadeInLeft}
                   className={`flex justify-center ${
                     index % 2 === 1 ? "lg:order-1" : ""
                   }`}
                 >
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-primary/20 rounded-3xl blur-3xl" />
-                    <img
+                    <motion.img
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
                       src={feature.image}
                       alt={feature.imageAlt}
                       className="relative w-full max-w-[300px] rounded-2xl shadow-2xl"
                     />
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </section>
         ))}
 
         {/* Additional Features Grid */}
-        <section className="py-16 md:py-24 bg-primary">
+        <section className="py-16 md:py-24 bg-primary overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={fadeInUp}
+              className="text-center mb-12"
+            >
               <h2 className="text-2xl md:text-4xl font-bold text-primary-foreground mb-4">
                 And Much More
               </h2>
               <p className="text-primary-foreground/70 max-w-2xl mx-auto">
                 Additional features that make NeuroSentio a complete solution
               </p>
-            </div>
+            </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerContainer}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
+            >
               {additionalFeatures.map((feature, index) => (
-                <div
+                <motion.div
                   key={index}
+                  variants={staggerItem}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
                   className="bg-primary-foreground/5 backdrop-blur rounded-2xl border border-primary-foreground/10 p-6"
                 >
                   <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center mb-4">
@@ -352,15 +453,21 @@ const Features = () => {
                   <p className="text-primary-foreground/70 text-sm leading-relaxed">
                     {feature.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4 text-center">
+        <section className="py-16 md:py-24 overflow-hidden">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="container mx-auto px-4 text-center"
+          >
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-accent/10 mb-6">
               <Heart className="w-7 h-7 text-accent" />
             </div>
@@ -384,7 +491,7 @@ const Features = () => {
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </section>
       </main>
       <Footer />
