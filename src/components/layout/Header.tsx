@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,14 +9,12 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
-  // All links now point to sections on the homepage
   const navLinks = [
-    { href: "/#features", label: "Features" },
-    { href: "/#how-it-works", label: "How It Works" },
-    { href: "/#faq", label: "FAQ" },
-    { href: "/#privacy", label: "Privacy" },
+    { href: "#features", label: "Features" },
+    { href: "/features", label: "All Features", isRoute: true },
+    { href: "#how-it-works", label: "How It Works" },
+    { href: "#privacy", label: "Privacy" },
   ];
 
   useEffect(() => {
@@ -32,25 +30,10 @@ const Header = () => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, isRoute?: boolean) => {
     setMobileMenuOpen(false);
-    
-    // Extract the hash from the href (e.g., "/#features" -> "#features")
-    const hash = href.includes("#") ? "#" + href.split("#")[1] : "";
-    
-    // If we're not on the homepage, navigate there first
-    if (location.pathname !== "/") {
-      navigate("/");
-      // Wait for navigation, then scroll
-      setTimeout(() => {
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
-    } else {
-      // Already on homepage, just scroll
-      const element = document.querySelector(hash);
+    if (!isRoute && href.startsWith("#")) {
+      const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
@@ -89,26 +72,40 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
           {navLinks.map((link) => (
-            <button
-              key={link.href}
-              onClick={() => handleNavClick(link.href)}
-              className="relative px-4 py-2 text-muted-foreground hover:text-foreground transition-colors font-medium rounded-lg hover:bg-muted/50"
-            >
-              {link.label}
-            </button>
+            link.isRoute ? (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="relative px-4 py-2 text-muted-foreground hover:text-foreground transition-colors font-medium rounded-lg hover:bg-muted/50"
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(link.href);
+                }}
+                className="relative px-4 py-2 text-muted-foreground hover:text-foreground transition-colors font-medium rounded-lg hover:bg-muted/50"
+              >
+                {link.label}
+              </a>
+            )
           ))}
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={() => handleNavClick("/#faq")}>
-            Learn More
+          <Button variant="ghost" size="sm" asChild>
+            <a href="#privacy">Learn More</a>
           </Button>
-          <Button variant="accent" size="sm" className="shadow-accent-glow" onClick={() => handleNavClick("/#download")}>
-            <span className="flex items-center gap-1">
+          <Button variant="accent" size="sm" className="shadow-accent-glow" asChild>
+            <a href="#download" className="flex items-center gap-1">
               Get the App
               <ChevronRight className="w-4 h-4" />
-            </span>
+            </a>
           </Button>
         </div>
 
@@ -170,13 +167,27 @@ const Header = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * index }}
                 >
-                  <button
-                    onClick={() => handleNavClick(link.href)}
-                    className="w-full flex items-center justify-between text-foreground hover:text-accent transition-colors font-medium py-3 px-4 rounded-lg hover:bg-muted/50 text-left"
-                  >
-                    {link.label}
-                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                  </button>
+                  {link.isRoute ? (
+                    <Link
+                      to={link.href}
+                      className="flex items-center justify-between text-foreground hover:text-accent transition-colors font-medium py-3 px-4 rounded-lg hover:bg-muted/50"
+                    >
+                      {link.label}
+                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(link.href);
+                      }}
+                      className="flex items-center justify-between text-foreground hover:text-accent transition-colors font-medium py-3 px-4 rounded-lg hover:bg-muted/50"
+                    >
+                      {link.label}
+                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                    </a>
+                  )}
                 </motion.div>
               ))}
               <motion.div
@@ -185,9 +196,11 @@ const Header = () => {
                 transition={{ delay: 0.2 }}
                 className="pt-4 mt-2 border-t border-border"
               >
-                <Button variant="accent" className="w-full shadow-accent-glow" onClick={() => handleNavClick("/#download")}>
-                  Get the App
-                  <ChevronRight className="w-4 h-4 ml-1" />
+                <Button variant="accent" className="w-full shadow-accent-glow" asChild>
+                  <a href="#download" onClick={() => handleNavClick("#download")}>
+                    Get the App
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </a>
                 </Button>
               </motion.div>
             </motion.div>
