@@ -2,8 +2,7 @@ import { Shield, WifiOff, ArrowRight, Sparkles, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import appMockup from "@/assets/app-mockup.png";
-
+import PhoneMockup from "@/components/ui/PhoneMockup";
 const HeroSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -198,11 +197,7 @@ const HeroSection = () => {
               >
                 {/* Glow behind phone */}
                 <div className="absolute inset-0 bg-gradient-to-b from-accent/40 to-calm-purple/40 blur-2xl scale-90 rounded-3xl" />
-                <img
-                  src={appMockup}
-                  alt="NeuroSentio app showing energy tracking dashboard"
-                  className="relative w-72 md:w-80 lg:w-96 float-card rounded-3xl"
-                />
+                <PhoneMockup className="relative w-72 md:w-80 lg:w-96 float-card" />
               </motion.div>
 
               {/* Stat card 1 - higher z-index */}
