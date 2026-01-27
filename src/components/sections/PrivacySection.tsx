@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Shield, Eye, Server, Trash2 } from "lucide-react";
+import { useRef } from "react";
 
 const privacyPoints = [
   {
@@ -45,14 +46,31 @@ const itemVariants = {
 };
 
 const PrivacySection = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const leftContentX = useTransform(scrollYProgress, [0, 0.5, 1], [-50, 0, 50]);
+  const rightContentX = useTransform(scrollYProgress, [0, 0.5, 1], [50, 0, -50]);
+  const backgroundScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
+
   return (
-    <section id="privacy" className="py-20 md:py-28 bg-primary text-primary-foreground">
-      <div className="container">
+    <section ref={containerRef} id="privacy" className="py-20 md:py-28 bg-primary text-primary-foreground relative overflow-hidden">
+      {/* Parallax background */}
+      <motion.div 
+        style={{ scale: backgroundScale }}
+        className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary-foreground/5 pointer-events-none"
+      />
+      <div className="container relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Content */}
+          {/* Content with parallax */}
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            style={{ x: leftContentX }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
             className="space-y-8"
@@ -83,8 +101,9 @@ const PrivacySection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Privacy points grid - desktop */}
+          {/* Privacy points grid - desktop with parallax */}
           <motion.div 
+            style={{ x: rightContentX }}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"

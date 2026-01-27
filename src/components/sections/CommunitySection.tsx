@@ -1,5 +1,5 @@
 import { Heart, MessageCircle, Sparkles, Star, Quote } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const values = [
@@ -51,23 +51,24 @@ const itemVariants = {
 
 const CommunitySection = () => {
   const ref = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["-30%", "30%"]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   return (
-    <section className="py-24 md:py-32 bg-secondary relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
-          transition={{ duration: 20, repeat: Infinity }}
-          className="absolute top-20 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ y: [0, 40, 0], x: [0, -30, 0] }}
-          transition={{ duration: 25, repeat: Infinity }}
-          className="absolute bottom-20 right-10 w-80 h-80 bg-calm-purple/10 rounded-full blur-3xl"
-        />
-      </div>
+    <section ref={containerRef} className="py-24 md:py-32 bg-secondary relative overflow-hidden">
+      {/* Background effects with parallax */}
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-calm-purple/10 rounded-full blur-3xl" />
+      </motion.div>
 
       <div className="container relative" ref={ref}>
         {/* Header */}
@@ -133,8 +134,9 @@ const CommunitySection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Testimonials */}
+        {/* Testimonials with parallax */}
         <motion.div
+          style={{ y: cardsY }}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

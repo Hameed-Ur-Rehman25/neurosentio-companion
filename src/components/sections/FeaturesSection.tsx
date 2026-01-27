@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
   Battery,
   AlertCircle,
@@ -93,25 +93,26 @@ const itemVariants = {
 
 const FeaturesSection = () => {
   const ref = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
   return (
-    <section id="features" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-accent/5 to-transparent rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-1/2 -left-1/4 w-[600px] h-[600px] bg-gradient-to-tr from-calm-purple/5 to-transparent rounded-full blur-3xl"
-        />
-      </div>
+    <section ref={containerRef} id="features" className="py-24 md:py-32 bg-background relative overflow-hidden">
+      {/* Background decoration with parallax */}
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-1/2 -right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-accent/5 to-transparent rounded-full blur-3xl" />
+        <div className="absolute -bottom-1/2 -left-1/4 w-[600px] h-[600px] bg-gradient-to-tr from-calm-purple/5 to-transparent rounded-full blur-3xl" />
+      </motion.div>
 
-      <div className="container relative">
+      <motion.div style={{ y: contentY }} className="container relative">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -150,7 +151,7 @@ const FeaturesSection = () => {
             <FeatureCard key={feature.title} feature={feature} index={index} />
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };

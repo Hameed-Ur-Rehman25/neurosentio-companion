@@ -1,10 +1,11 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useRef } from "react";
 
 const faqs = [
   {
@@ -50,13 +51,24 @@ const faqs = [
 ];
 
 const FAQSection = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const headerY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [60, -60]);
+
   return (
-    <section id="faq" className="py-20 md:py-28 bg-background">
+    <section ref={containerRef} id="faq" className="py-20 md:py-28 bg-background overflow-hidden">
       <div className="container">
-        {/* Header */}
+        {/* Header with parallax */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          style={{ y: headerY }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-12 md:mb-16 space-y-4"
@@ -72,10 +84,11 @@ const FAQSection = () => {
           </p>
         </motion.div>
 
-        {/* FAQ Accordion */}
+        {/* FAQ Accordion with parallax */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          style={{ y: contentY }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-3xl mx-auto"
