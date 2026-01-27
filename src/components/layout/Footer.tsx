@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -26,13 +27,15 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 font-semibold text-xl mb-4">
-              <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-bold text-sm">N</span>
-              </div>
-              <span>NeuroSentio</span>
-            </div>
-            <p className="text-primary-foreground/70 text-sm">
+            <Link to="/" className="flex items-center gap-2.5 font-semibold text-xl mb-4 group">
+              <img 
+                src={logo} 
+                alt="NeuroSentio logo" 
+                className="w-9 h-9 object-contain transition-transform group-hover:scale-110"
+              />
+              <span className="group-hover:text-accent transition-colors">NeuroSentio</span>
+            </Link>
+            <p className="text-primary-foreground/70 text-sm leading-relaxed">
               Empowering the autism community with tools for energy management, safety, and well-being.
             </p>
           </div>
