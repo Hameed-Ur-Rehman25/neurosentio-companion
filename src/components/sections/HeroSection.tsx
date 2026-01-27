@@ -15,10 +15,6 @@ const HeroSection = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
-  const floatingAnimation = {
-    y: [0, -20, 0],
-    rotate: [0, 2, 0, -2, 0],
-  };
 
   return (
     <section
@@ -189,53 +185,34 @@ const HeroSection = () => {
             className="relative flex justify-center lg:justify-end perspective-1000"
           >
             <div className="relative">
-              {/* Decorative background shapes with animation */}
-              <motion.div
-                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-accent/30 to-transparent rounded-full blur-3xl"
-              />
-              <motion.div
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                className="absolute -bottom-20 -left-20 w-72 h-72 bg-gradient-to-tr from-calm-purple/30 to-transparent rounded-full blur-3xl"
-              />
+              {/* Decorative background shapes */}
+              <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-accent/30 to-transparent rounded-full blur-3xl" />
+              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-gradient-to-tr from-calm-purple/30 to-transparent rounded-full blur-3xl" />
 
               {/* Main phone mockup */}
               <motion.div
-                animate={floatingAnimation}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
                 className="relative z-10"
               >
-                <motion.div
-                  whileHover={{ scale: 1.05, rotateY: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="relative"
-                >
-                  {/* Glow behind phone */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-accent/40 to-calm-purple/40 blur-2xl scale-90 rounded-3xl" />
-                  <img
-                    src={appMockup}
-                    alt="NeuroSentio app showing energy tracking dashboard"
-                    className="relative w-72 md:w-80 lg:w-96 float-card rounded-3xl"
-                  />
-                </motion.div>
+                {/* Glow behind phone */}
+                <div className="absolute inset-0 bg-gradient-to-b from-accent/40 to-calm-purple/40 blur-2xl scale-90 rounded-3xl" />
+                <img
+                  src={appMockup}
+                  alt="NeuroSentio app showing energy tracking dashboard"
+                  className="relative w-72 md:w-80 lg:w-96 float-card rounded-3xl"
+                />
               </motion.div>
 
-              {/* Floating stat card 1 */}
+              {/* Stat card 1 */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.5, y: 50 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1 }}
-                whileHover={{ scale: 1.1, y: -10 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
                 className="absolute -top-6 -right-6 md:-right-20 glass rounded-2xl p-5 float-card border border-accent/20"
               >
-                <motion.div
-                  animate={{ rotate: [0, 10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  <Zap className="w-6 h-6 text-accent mb-2" />
-                </motion.div>
+                <Zap className="w-6 h-6 text-accent mb-2" />
                 <p className="text-xs text-muted-foreground mb-1">Energy Today</p>
                 <p className="text-3xl font-bold text-accent">85%</p>
                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
@@ -243,35 +220,31 @@ const HeroSection = () => {
                 </p>
               </motion.div>
 
-              {/* Floating stat card 2 */}
+              {/* Stat card 2 */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.5, y: 50 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.2 }}
-                whileHover={{ scale: 1.1, y: -10 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1 }}
                 className="absolute -bottom-6 -left-6 md:-left-20 glass rounded-2xl p-5 float-card border border-calm-purple/20"
               >
                 <p className="text-xs text-muted-foreground mb-1">Check-ins</p>
                 <p className="text-3xl font-bold text-foreground">247</p>
                 <div className="flex gap-1 mt-2">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <motion.div
+                    <div
                       key={i}
-                      initial={{ scaleY: 0 }}
-                      animate={{ scaleY: 1 }}
-                      transition={{ delay: 1.4 + i * 0.1 }}
-                      className="w-2 h-4 bg-gradient-to-t from-accent to-calm-purple rounded-full origin-bottom"
+                      className="w-2 bg-gradient-to-t from-accent to-calm-purple rounded-full"
                       style={{ height: `${12 + i * 4}px` }}
                     />
                   ))}
                 </div>
               </motion.div>
 
-              {/* Floating notification */}
+              {/* Notification card */}
               <motion.div
-                initial={{ opacity: 0, x: -50 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.4 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
                 className="absolute top-1/2 -left-10 md:-left-24 glass rounded-xl p-3 float-card border border-gentle-green/20"
               >
                 <div className="flex items-center gap-2">
