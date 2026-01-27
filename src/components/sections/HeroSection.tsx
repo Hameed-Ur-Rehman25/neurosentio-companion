@@ -189,12 +189,12 @@ const HeroSection = () => {
               <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-accent/30 to-transparent rounded-full blur-3xl" />
               <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-gradient-to-tr from-calm-purple/30 to-transparent rounded-full blur-3xl" />
 
-              {/* Main phone mockup */}
+              {/* Main phone mockup - lower z-index so cards appear on top */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="relative z-10"
+                className="relative z-0"
               >
                 {/* Glow behind phone */}
                 <div className="absolute inset-0 bg-gradient-to-b from-accent/40 to-calm-purple/40 blur-2xl scale-90 rounded-3xl" />
@@ -205,12 +205,12 @@ const HeroSection = () => {
                 />
               </motion.div>
 
-              {/* Stat card 1 */}
+              {/* Stat card 1 - higher z-index */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
-                className="absolute -top-6 -right-6 md:-right-20 glass rounded-2xl p-5 float-card border border-accent/20"
+                className="absolute -top-6 -right-6 md:-right-20 z-20 glass rounded-2xl p-5 float-card border border-accent/20"
               >
                 <Zap className="w-6 h-6 text-accent mb-2" />
                 <p className="text-xs text-muted-foreground mb-1">Energy Today</p>
@@ -220,12 +220,12 @@ const HeroSection = () => {
                 </p>
               </motion.div>
 
-              {/* Stat card 2 */}
+              {/* Stat card 2 - higher z-index */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1 }}
-                className="absolute -bottom-6 -left-6 md:-left-20 glass rounded-2xl p-5 float-card border border-calm-purple/20"
+                className="absolute -bottom-6 -left-6 md:-left-20 z-20 glass rounded-2xl p-5 float-card border border-calm-purple/20"
               >
                 <p className="text-xs text-muted-foreground mb-1">Check-ins</p>
                 <p className="text-3xl font-bold text-foreground">247</p>
@@ -240,12 +240,12 @@ const HeroSection = () => {
                 </div>
               </motion.div>
 
-              {/* Notification card */}
+              {/* Notification card - higher z-index */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
-                className="absolute top-1/2 -left-10 md:-left-24 glass rounded-xl p-3 float-card border border-gentle-green/20"
+                className="absolute top-1/2 -left-10 md:-left-24 z-20 glass rounded-xl p-3 float-card border border-gentle-green/20"
               >
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gentle-green/20 flex items-center justify-center">
