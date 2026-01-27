@@ -1,6 +1,6 @@
 import { Apple, Smartphone, Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const features = [
@@ -12,21 +12,24 @@ const features = [
 
 const DownloadSection = () => {
   const ref = useRef(null);
+  const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+  const cardScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
+  const cardRotate = useTransform(scrollYProgress, [0, 0.5, 1], [-1, 0, 1]);
+
   return (
-    <section id="download" className="py-24 md:py-32 bg-background relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-accent/20 via-calm-purple/10 to-transparent rounded-full blur-3xl"
-        />
-      </div>
+    <section ref={containerRef} id="download" className="py-24 md:py-32 bg-background relative overflow-hidden">
+      {/* Animated background with parallax */}
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-accent/20 via-calm-purple/10 to-transparent rounded-full blur-3xl" />
+      </motion.div>
 
       <div className="container relative" ref={ref}>
         <motion.div
@@ -35,10 +38,12 @@ const DownloadSection = () => {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
-          {/* Main Card */}
+          {/* Main Card with parallax scale */}
           <motion.div
-            whileHover={{ scale: 1.01 }}
-            transition={{ duration: 0.3 }}
+            style={{ scale: cardScale, rotate: cardRotate }}
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
             className="relative rounded-[2.5rem] p-10 md:p-16 overflow-hidden"
           >
             {/* Card background with gradient border */}
