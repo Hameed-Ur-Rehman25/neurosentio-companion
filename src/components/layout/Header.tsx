@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -54,10 +55,14 @@ const Header = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5 group">
           <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center shadow-accent-glow"
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            <span className="text-accent-foreground font-bold text-base">N</span>
+            <img 
+              src={logo} 
+              alt="NeuroSentio logo" 
+              className="w-9 h-9 object-contain"
+            />
           </motion.div>
           <span className="font-semibold text-xl tracking-tight group-hover:text-accent transition-colors">
             NeuroSentio
