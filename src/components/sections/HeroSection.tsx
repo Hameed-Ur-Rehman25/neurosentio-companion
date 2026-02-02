@@ -84,7 +84,7 @@ const HeroSection = () => {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.1]"
               >
-                Made for
+                Embrace Your Rhythm,
                 <br />
                 <motion.span
                   className="gradient-text inline-block"
@@ -92,7 +92,7 @@ const HeroSection = () => {
                   transition={{ duration: 5, repeat: Infinity }}
                   style={{ backgroundSize: "200% 200%" }}
                 >
-                  How You Think
+                  Find Your Calm
                 </motion.span>
               </motion.h1>
               <motion.p
